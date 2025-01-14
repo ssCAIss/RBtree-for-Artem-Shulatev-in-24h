@@ -24,9 +24,14 @@ struct RBNode {
 };
 
 class RBTree {
-private:
+public:
+    RBNode* root;
+
     ~RBTree();
     RBTree();
+    void LeftRotate(RBNode*& node);
+    void RightRotate(RBNode*& node);
+
 };
 
 #endif
