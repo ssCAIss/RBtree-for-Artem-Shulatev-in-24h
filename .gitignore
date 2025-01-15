@@ -361,3 +361,8 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/data.txt
+/output.txt
+/RBtree for Artem Shulatev in 24h/data.txt
+/RBtree for Artem Shulatev in 24h/output.txt
+/TextFile1.txt
