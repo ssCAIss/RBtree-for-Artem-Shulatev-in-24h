@@ -14,7 +14,6 @@ struct Group {
 
 enum Color {R, B};
 
-
 struct RBNode {
     RBNode* left;
     RBNode* right;
@@ -24,19 +23,24 @@ struct RBNode {
     LinkedList ListOfGroups;
 
     RBNode(Group group);
+    
 };
+
+std::ostream& operator<<(std::ostream& os, RBNode* node);
 
 class RBTree {
 public:
     RBNode* root;
 
-    ~RBTree();
     RBTree();
-    void LeftRotate(RBNode*& node);
-    void RightRotate(RBNode*& node);
+    ~RBTree();
+    void LeftRotate(RBNode*& root, RBNode*& node);
+    void RightRotate(RBNode*& root, RBNode*& node);
     int ProgramToInt(char program);
     void Insert(char program, int id, int number);
-    void InsertBalance(RBNode*& node);
+    void InsertBalance(RBNode*& root, RBNode*& node);
+    void PrintTree(RBNode*& node, int level);
+    void TimeToDie(RBNode* node);
 };
 
 #endif
