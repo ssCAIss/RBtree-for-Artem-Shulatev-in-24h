@@ -10,7 +10,11 @@ bool Group::operator== (const Group& g) {
 }
 
 bool Group::operator>(const Group& g) {
-	if (program > g.program || ID > g.ID)
+	if (program > g.program)
+		return true;
+	else if (program < g.program)
+		return false;
+	else if (ID > g.ID)
 		return true;
 	return false;
 }
@@ -32,11 +36,11 @@ RBTree::RBTree(){
 	sentinel->color = B;
 }
 
-void RBTree::LeftRotate(RBNode*& root, RBNode*& node) {
+void RBTree::LeftRotate(RBNode*& root, RBNode* node) {
 	RBNode* y = node->right;
 	node->right = y->left;
 
-	if (y->left) 
+	if (y->left != sentinel) 
 		y->left->parent = node;
 
 	y->parent = node->parent;
@@ -52,11 +56,11 @@ void RBTree::LeftRotate(RBNode*& root, RBNode*& node) {
 	node->parent = y;
 }
 
-void RBTree::RightRotate(RBNode*& root, RBNode*& node) {
+void RBTree::RightRotate(RBNode*& root, RBNode* node) {
 	RBNode* y = node->left;
 	node->left = y->right;
 
-	if (y->right)
+	if (y->right != sentinel)
 		y->right->parent = node;
 
 	y->parent = node->parent;
@@ -118,8 +122,8 @@ void RBTree::Insert(char program, int id, int number) {
 	node->ListOfGroups.add_node(number);
 	node->left = sentinel;
 	node->right = sentinel;
-	if (!y)
-		root = node;
+	if (!y){
+		root = node;}
 	else if (newgroup > y->group)
 		y->right = node;
 	else
@@ -183,7 +187,7 @@ void RBTree::PrintTree(RBNode*& node, int level) {
 }
 
 void RBTree::TimeToDie(RBNode* node) {
-	if (node == NULL || node == sentinel)
+	if (node == NULL|| node == sentinel)
 		return;
 
 	TimeToDie(node->left);
@@ -195,10 +199,11 @@ void RBTree::TimeToDie(RBNode* node) {
 RBTree::~RBTree() {
 	std::cout << "FATALITY";
 	TimeToDie(root);
+	delete sentinel;
 }
 
 RBNode* RBTree::tree_minimum(RBNode* node) {
-	while (node->left)
+	while (node->left!= sentinel)
 		node = node->left;
 	return node;
 }
@@ -249,7 +254,7 @@ void RBTree::deleting(RBNode*& toDelete) {
 	x->parent = y->parent;
 	if (y->parent == sentinel)
 		this->root = x;
-	else if (y = y->parent->left)
+	else if (y == y->parent->left)
 		y->parent->left = x;
 	else
 		y->parent->right = x;
@@ -257,7 +262,63 @@ void RBTree::deleting(RBNode*& toDelete) {
 		toDelete->group = y->group;
 		toDelete->ListOfGroups = y->ListOfGroups;
 	}
-	//if (y->color == B)
-	//	deletefix(root, x);
-	delete y;
+	if (y->color == B)
+		fixDelete(x);
+}
+
+void RBTree::fixDelete(RBNode* x) {
+	while (x != root && x->color == B) 
+		if (x == x->parent->left) {
+			RBNode* w = x->parent->right;
+			if (w->color == R) {
+				w->color = B;
+				x->parent->color = R;
+				LeftRotate(root, x->parent);
+				w = x->parent->right;
+			}
+			if (w->left->color == B && w->right->color == B) {
+				w->color = R;
+				x = x->parent;
+			}
+			else {
+				if (w->right->color == B) {
+					w->left->color = B;
+					w->color = R;
+					RightRotate(root, w);
+					w = x->parent->right;
+				}
+				w->color = x->parent->color;
+				x->parent->color = B;
+				w->right->color = B;
+				LeftRotate(root, x->parent);
+				x = root;
+			}	
+		}
+		else {
+			RBNode* w = x->parent->left;
+			if (w->color == R) {
+				w->color = B;
+				x->parent->color = R;
+				RightRotate(root, x->parent);
+				w = x->parent->left;
+			}
+			if (w->right->color == B && w->left->color == B) {
+				w->color = R;
+				x = x->parent;
+			}
+			else {
+				if (w->left->color == B) {
+					w->right->color = B;
+					w->color = R;
+					LeftRotate(root, w);
+					w = x->parent->right;
+				}
+				w->color = x->parent->color;
+				x->parent->color = B;
+				w->left->color = B;
+				RightRotate(root, x->parent);
+				x = root;
+			}
+		}
+	x->color = B;
 }

@@ -35,8 +35,8 @@ public:
 
     RBTree();
     ~RBTree();
-    void LeftRotate(RBNode*& root, RBNode*& node);
-    void RightRotate(RBNode*& root, RBNode*& node);
+    void LeftRotate(RBNode*& root, RBNode* node);
+    void RightRotate(RBNode*& root, RBNode* node);
     int ProgramToInt(char program);
     void Insert(char program, int id, int number);
     void InsertBalance(RBNode*& root, RBNode*& node);
@@ -47,6 +47,7 @@ public:
     RBNode* find(Group group, int value);
     void deletenode(Group group, int value);
     void deleting(RBNode*& toDelete);
+    void fixDelete(RBNode* x);
 };
 
 #endif

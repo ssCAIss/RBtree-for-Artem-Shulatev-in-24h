@@ -28,6 +28,7 @@ public:
 	void pprint();
 	bool isEmpty();
 	~LinkedList();
+	LinkedList();
 };
 
 #endif

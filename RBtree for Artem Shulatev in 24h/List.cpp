@@ -8,6 +8,7 @@ void LinkedList::color_print(int value) {
 	std::cout << c << value << "\033[0m";
 }
 
+LinkedList::LinkedList() : head(NULL) {}
 
 void LinkedList::add_node(int value) {
 	Node* new_node = new Node(value); 
