@@ -26,6 +26,7 @@ public:
 	bool find(int value);
 	LinkedList unionn(LinkedList& list2);
 	void pprint();
+	bool isEmpty();
 	~LinkedList();
 };
 

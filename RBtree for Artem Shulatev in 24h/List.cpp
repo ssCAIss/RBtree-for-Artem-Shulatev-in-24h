@@ -88,6 +88,7 @@ bool LinkedList::find(int value) {
 			return true;
 		}
 	} while (cur->next);
+	return false;
 }
 
 LinkedList LinkedList::unionn(LinkedList& list2) {
@@ -142,4 +143,10 @@ LinkedList::~LinkedList() {
 		delete cur;
 		cur = next_node;
 	} while (cur);
+}
+
+bool LinkedList::isEmpty() {
+	if (!head)
+		return true;
+	return false;
 }

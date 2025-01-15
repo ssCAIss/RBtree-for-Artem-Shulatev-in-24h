@@ -31,6 +31,7 @@ std::ostream& operator<<(std::ostream& os, RBNode* node);
 class RBTree {
 public:
     RBNode* root;
+    RBNode* sentinel;
 
     RBTree();
     ~RBTree();
@@ -41,6 +42,11 @@ public:
     void InsertBalance(RBNode*& root, RBNode*& node);
     void PrintTree(RBNode*& node, int level);
     void TimeToDie(RBNode* node);
+    RBNode* tree_minimum(RBNode* node);
+    RBNode* tree_successor(RBNode* node);
+    RBNode* find(Group group, int value);
+    void deletenode(Group group, int value);
+    void deleting(RBNode*& toDelete);
 };
 
 #endif
